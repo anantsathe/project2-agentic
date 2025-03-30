@@ -31,3 +31,5 @@ venv_win/
 misc_files/
 node_modules/
 .vercel
+# Evvironment variable files
+.env
