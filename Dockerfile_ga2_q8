@@ -1,0 +1,8 @@
+# Below code is part of question on docker image creation, GA-2, Q8
+    
+    FROM python:3.9-slim
+    RUN echo "Hello, Docker Hub!"
+    CMD ["echo", "Docker image successfully created!"]
+    
+
+

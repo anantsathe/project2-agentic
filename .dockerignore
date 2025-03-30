@@ -1,0 +1,5 @@
+venv
+venv_win
+misc_files
+__pycache__
+.git
