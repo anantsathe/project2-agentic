@@ -1,0 +1,33 @@
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux system files
+*.swp
+*.swo
+# VS Code settings
+.vscode/
+
+# JetBrains IDEs (PyCharm, IntelliJ, etc.)
+.idea/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Vim swap files
+*.swp
+*.swo
+# Logs and caches
+*.log
+*.cache
+*.bak
+*.tmp
+venv/
+venv_win/
+misc_files/
+node_modules/
+.vercel
