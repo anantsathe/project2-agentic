@@ -1,5 +1,7 @@
+
 import sys
 import os
+from dotenv import load_dotenv
 import json
 import base64
 import subprocess
@@ -12,7 +14,7 @@ import urllib.parse
 import shutil
 import tempfile
 import requests  # Needed for OpenAI API call
-from fastapi import FastAPI, UploadFile, Form, File, HTTPException
+from fastapi import FastAPI, UploadFile, Form, File, HTTPException,Body
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from difflib import SequenceMatcher
@@ -117,11 +119,22 @@ def load_questions():
 
 KNOWN_QUESTIONS = load_questions()
 
+load_dotenv()
+
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+
+# Check if variables are loaded correctly
+if not GITHUB_TOKEN:
+    print("⚠️ Warning: GITHUB_TOKEN is not set!")
+else:
+    print(f"✅ Loaded GitHub Key: {GITHUB_TOKEN[:5]}****")
 
 # OpenAI API Proxy Details
 API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("AIPROXY_TOKEN")
 if not API_KEY or API_KEY.strip() == "":
     raise ValueError("API key is not set!")
+else:
+    print(f"✅ Loaded AIPROXY_TOKEN: {API_KEY[:5]}****")
 
 EMBEDDING_URL = "https://aiproxy.sanand.workers.dev/openai/v1/embeddings"
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
@@ -381,9 +394,9 @@ async def process_question_api(
         if reference == "GA-1-Q10":
             print("🎯 Executing `ga_1_q10_handler.py` to process key-value file and compute JSON hash")
             return await solve_ga_1_q10(file)  # Call 
-        if reference == "GA-1-Q11":
-            print("🎯 Executing `ga_1_q11_handler.py` to extract hidden elements and compute sum")
-            return await solve_ga_1_q11(question)  # Make sure to use `await`
+        #if reference == "GA-1-Q11":
+            #print("🎯 Executing `ga_1_q11_handler.py` to extract hidden elements and compute sum")
+            #return await solve_ga_1_q11(question)  # Make sure to use `await`
 
         if reference == "GA-1-Q12":
             print("🎯 Executing `ga_1_q12_handler.py` to find sum of values for all symbols")
@@ -543,7 +556,7 @@ async def process_question_api(
             print("🎯 Executing `ga_3_q3_handler.py` for generating address JSON")
             return await solve_ga_3_q3(question)  # ✅ Pass `question` to the function
         if reference == "GA-3-Q4":
-            return await solve_ga_3_q4()
+            return solve_ga_3_q4(file)
         if reference == "GA-3-Q5":
             return await solve_ga_3_q5()
         
